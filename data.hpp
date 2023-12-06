@@ -110,73 +110,73 @@ void PHC_index::display(bool detail = true) const
 	std::cout << std::endl;
 }
 
-class LNE_index
-{
-private:
-	std::vector<std::vector<std::pair<std::set<size_t>, std::vector<std::tuple<size_t, size_t, size_t, size_t>>>>> data;
-	static LNE_index load_file(std::string file_path);
-	void display();
-	std::set<size_t> search(size_t k, size_t ts, size_t te);
-};
+// class LNE_index
+// {
+// private:
+// 	std::vector<std::vector<std::pair<std::set<size_t>, std::vector<std::tuple<size_t, size_t, size_t, size_t>>>>> data;
+// 	static LNE_index load_file(std::string file_path);
+// 	void display();
+// 	std::set<size_t> search(size_t k, size_t ts, size_t te);
+// };
 
-LNE_index LNE_index::load_file(std::string file_path)
-{
-	std::cout << "-------------------- Loading LNE from file" << std::endl;
-	LNE_index lne;
-	auto ifs = std::fstream(file_path, std::ios::in);
-	size_t num_k;
-	ifs >> num_k;
-	lne.data.resize(num_k);
-	for (size_t k = 0; k < num_k; k++)
-	{
-		size_t num_core;
-		ifs >> num_core;
-		lne.data[k - 2].resize(num_core);
-		for (size_t i = 0; i < num_core; i++)
-		{
-			size_t num_vert, num_region;
-			ifs >> num_vert >> num_region;
-			auto core = std::set<size_t>{};
-			for (size_t j = 0; j < num_vert; j++)
-			{
-				size_t cur_vert;
-				ifs >> cur_vert;
-				core.insert(cur_vert);
-			}
-			auto regions = std::vector<std::tuple<size_t, size_t, size_t, size_t>>(num_region);
-			for (size_t j = 0; j < num_region; j++)
-			{
-				size_t x1, y1, x2, y2;
-				ifs >> x1 >> y1 >> x2 >> y2;
-				regions.push_back({x1, y1, x2, y2});
-			}
-			lne.data[k - 2][i].second.push_back(std::make_pair(core, regions));
-		}
-	}
-	return lne;
-}
+// LNE_index LNE_index::load_file(std::string file_path)
+// {
+// 	std::cout << "-------------------- Loading LNE from file" << std::endl;
+// 	LNE_index lne;
+// 	auto ifs = std::fstream(file_path, std::ios::in);
+// 	size_t num_k;
+// 	ifs >> num_k;
+// 	lne.data.resize(num_k);
+// 	for (size_t k = 0; k < num_k; k++)
+// 	{
+// 		size_t num_core;
+// 		ifs >> num_core;
+// 		lne.data[k - 2].resize(num_core);
+// 		for (size_t i = 0; i < num_core; i++)
+// 		{
+// 			size_t num_vert, num_region;
+// 			ifs >> num_vert >> num_region;
+// 			auto core = std::set<size_t>{};
+// 			for (size_t j = 0; j < num_vert; j++)
+// 			{
+// 				size_t cur_vert;
+// 				ifs >> cur_vert;
+// 				core.insert(cur_vert);
+// 			}
+// 			auto regions = std::vector<std::tuple<size_t, size_t, size_t, size_t>>(num_region);
+// 			for (size_t j = 0; j < num_region; j++)
+// 			{
+// 				size_t x1, y1, x2, y2;
+// 				ifs >> x1 >> y1 >> x2 >> y2;
+// 				regions.push_back({x1, y1, x2, y2});
+// 			}
+// 			lne.data[k - 2][i].second.push_back(std::make_pair(core, regions));
+// 		}
+// 	}
+// 	return lne;
+// }
 
-void LNE_index::display()
-{
-	std::cout << "-------------------- LNE index display" << std::endl;
-	for (size_t k = 0; k < data.size(); k++)
-	{
-		std::cout << "(k=" << k + 2 << ")" << std::endl;
-		for (auto &&pair : data[k])
-		{
-			std::cout << "num of cores: " << data[k].size() << std::endl;
-			auto core = pair.first;
-			auto regions = pair.second;
-			std::cout << "core:";
-			for (auto &&v : core)
-				std::cout << " " << v;
-			std::cout << "\n";
-			for (auto &&region : regions)
-			{
-				auto [x1, y1, x2, y2] = region;
-				std::cout << "[" << x1 << ", " << y1 << ", " << x2 << ", " << y2 << "] ";
-			}
-			std::cout << "\n";
-		}
-	}
-}
+// void LNE_index::display()
+// {
+// 	std::cout << "-------------------- LNE index display" << std::endl;
+// 	for (size_t k = 0; k < data.size(); k++)
+// 	{
+// 		std::cout << "(k=" << k + 2 << ")" << std::endl;
+// 		for (auto &&pair : data[k])
+// 		{
+// 			std::cout << "num of cores: " << data[k].size() << std::endl;
+// 			auto core = pair.first;
+// 			auto regions = pair.second;
+// 			std::cout << "core:";
+// 			for (auto &&v : core)
+// 				std::cout << " " << v;
+// 			std::cout << "\n";
+// 			for (auto &&region : regions)
+// 			{
+// 				auto [x1, y1, x2, y2] = region;
+// 				std::cout << "[" << x1 << ", " << y1 << ", " << x2 << ", " << y2 << "] ";
+// 			}
+// 			std::cout << "\n";
+// 		}
+// 	}
+// }
